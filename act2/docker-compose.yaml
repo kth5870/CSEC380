@@ -8,7 +8,6 @@ services:
     restart: always
 
   varnish:
-    container_name: varnish
     depends_on:
       - nginx    
     build:
