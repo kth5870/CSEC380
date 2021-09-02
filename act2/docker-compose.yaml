@@ -1,0 +1,17 @@
+version: "3"
+services:
+  nginx: 
+    build: 
+      context: ./webserver
+    ports: 
+      - 8088:8088
+    restart: always
+
+  varnish:
+    container_name: varnish
+    depends_on:
+      - nginx    
+    build:
+      context: ./cache
+    ports:
+      - 81:81
