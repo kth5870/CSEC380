@@ -3,14 +3,10 @@ services:
   nginx: 
     build: 
       context: ./webserver
-    ports:
-      - "81:80"
 
   nginx2:
     build:
       context: ./webserver2
-    ports: 
-      - "82:80"
 
   varnish:
     depends_on:
