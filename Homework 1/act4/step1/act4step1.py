@@ -7,7 +7,7 @@ Step 1 Act 4
 """
 
 def request_url():
-    request = requests.get("http://csec.rit.edu")
+    request = requests.get("https://csec.rit.edu")
 
 def main():
     request_url()
