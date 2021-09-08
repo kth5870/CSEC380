@@ -7,6 +7,7 @@ HTTP_PORTS = [80, 443, 8080]
 
 def scan_for_proxy(ip):
     ip_range = str(ipaddress.ip_address(ip))
+    print("ips:", ip_range)
     returned_proxy = set()
 
     for port in HTTP_PORTS:
@@ -26,7 +27,7 @@ def main():
     end_ip = ipaddress.ip_address(sys.argv[2])
     ip = range(int(start_ip), int(end_ip) + 1)
 
-    thread = ThreadPool(1000)
+    thread = ThreadPool(600)
     results = thread.map(scan_for_proxy, ip)
   
     thread.close()
