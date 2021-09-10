@@ -7,12 +7,10 @@ HTTP_PORTS = [80, 443, 8080]
 
 def scan_for_proxy(ip):
     ip_range = str(ipaddress.ip_address(ip))
-    print("ips:", ip_range)
     returned_proxy = set()
 
     for port in HTTP_PORTS:
         proxy = "http://%s:%s" % (ip_range, port)
-        # print(proxy)
         request = requests.get("https://csec.rit.edu", proxies={"http":proxy})
         if request.status_code == 200:
             returned_proxy.add(ip_range)  
