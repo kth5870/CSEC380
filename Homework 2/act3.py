@@ -6,7 +6,6 @@ Kayla Hodgson
 CSEC 380 - HW2 Activity 3
 """
 
-
 HOSTNAME = "csec380-core.csec.rit.edu"
 PORT = 82
 FLAG = "flag3"
@@ -25,7 +24,6 @@ def get_flag():
     params = {"user": "kth5870", "token": token, "solution": str(eval(captcha))}
     request.post("/getFlag3Challenge", params)
     print("Flag 3 is: %s" % request.parse_results(FLAG))
-
 
 def main():
     get_flag()

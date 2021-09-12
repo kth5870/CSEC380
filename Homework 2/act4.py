@@ -6,7 +6,6 @@ Kayla Hodgson
 CSEC 380 - HW2 Activity 1
 """
 
-
 HOSTNAME = "csec380-core.csec.rit.edu"
 PORT = 82
 FLAG = "flag4"

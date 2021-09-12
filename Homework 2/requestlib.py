@@ -21,7 +21,6 @@ class Request:
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((self.hostname, self.port))
 
-
     def request_header(self, request_type, path, data=""):
         data_str = ul.urlencode(data)
 
