@@ -10,7 +10,7 @@ Parses the HTML returned by the http request
 """
 def parse_html(soup):
     context = soup.find_all("tr", {"class": "hidden-row"}, {"class": "course-name"})
-
+    print(context)
     courses = {}
     for i in context:
         if i.contents[0].contents[0] is not None:
