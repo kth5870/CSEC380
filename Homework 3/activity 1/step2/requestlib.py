@@ -21,7 +21,6 @@ class Request:
         self.location = ""
 
         context = ssl.SSLContext(ssl.PROTOCOL_TLS)
-        print(socket.gethostbyname(hostname))
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.https_socket = context.wrap_socket(self.socket, server_hostname=self.hostname)
         self.https_socket.connect((self.hostname, self.port))
@@ -42,38 +41,22 @@ class Request:
 
         header += "Connection: close\r\n"
         header += "\r\n"
-        print(header)
         return header
 
     def get(self, path):
         request = self.request_header("GET", path)
         self.https_socket.sendall(request.encode())
-        self.response = self.https_socket.recv(4096)
 
-        # print(self.response)
-        while True:
-            page = self.https_socket.recv(4096)
-            self.response += page
-            if len(page) != 4096:  # when done receiving data
-                break
-
-        while True:
-            page = self.https_socket.recv(4096)
-            self.response += page
-            if len(page) != 4096:  # when done receiving data
-                break
+        self.recv_data(8)
 
         self.response = self.response.split(b'\r\n\r\n')[1]
-        print(self.response)
-        # print(self.response.split(b'\r\n\r\n')[1:])
         return self.response
 
     def post(self, path, data=""):
         request = self.request_header("POST", path, data)
         self.https_socket.sendall(request.encode())
-        # self.response = self.https_socket.recv(4096)
+
         self.get_http_content()
-        print(path, ':', self.response)
         return self.response
 
     def get_http_content(self):
@@ -83,17 +66,18 @@ class Request:
             if len(page) != 4096:  # when done receiving data
                 break
 
-        while True:
-            page = self.https_socket.recv(4096)
-            self.response += page
-            if len(page) != 4096:  # when done receiving data
-                break
+        self.recv_data(2)
 
-        while True:
-            page = self.https_socket.recv(4096)
-            self.response += page
-            if len(page) != 4096:  # when done receiving data
-                break
+    def recv_data(self, number):
+        self.response = self.https_socket.recv(4096)
+
+        while number > 0:
+            while True:
+                page = self.https_socket.recv(4096)
+                self.response += page
+                if len(page) != 4096:  # when done receiving data
+                    break
+            number -= 1
 
     def parse_results(self, key):
         token = self.response.decode()
