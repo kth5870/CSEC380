@@ -1,9 +1,8 @@
 from bs4 import BeautifulSoup
 from requestlib import Request
+from multiprocessing.dummy import Pool
 import os
-import requests
 import shutil
-import sys
 
 HOSTNAME = "www.rit.edu"
 PORT = 443
@@ -22,10 +21,8 @@ def parse_html(soup):
     return images
 
 def write_image_to_folder(name, request):
-    print(request.response)
-    # print(request.response.split(b'\r\n\r\n')[1])
     with open("images/%s" % name, "wb") as folder:
-                folder.write(request.response)
+        folder.write(request.response)
 
 def get_image_name(img):
     tokens = img.split("/")
@@ -37,21 +34,16 @@ def get_image_name(img):
 
     return tokens[-1]
 
-def download_images(images):
-    # os.mkdir("images")
-    for img in images:
+def download_images(img):
         name = get_image_name(img)
         if img[0] == "/":
             request = Request("www.rit.edu", 443)
-            print("downloading image", img)
             request.get(img)
 
             write_image_to_folder(name, request)
-            # print(request.response.split(b'\r\n\r\n')[1])
         else:
             request = Request("claws.rit.edu", 443)
             token = img.split("/")
-            print("downloading image", token[-1])
             request.get("/photos/" + token[-1])
 
             write_image_to_folder(name, request)
@@ -62,7 +54,17 @@ def http_request():
 
     soup = BeautifulSoup(request.response, "html.parser")
     images = parse_html(soup)
-    download_images(images)
+
+    try:
+        os.mkdir("images")
+    except FileExistsError:
+        shutil.rmtree("images")
+        os.mkdir("images")
+
+    pool = Pool(30)
+    pool.map(download_images, images)
+    pool.close()
+    pool.join()
 
 def main():
     http_request()
