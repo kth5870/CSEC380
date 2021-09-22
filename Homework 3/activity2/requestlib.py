@@ -1,13 +1,14 @@
 import socket, ssl
 import json
 import urllib.parse as ul
+from crawler import Crawler
 
 """
 Kayla Hodgson
 09/10/2021
 CSEC 380 - HW3 Request Library
 Creates a POST or GET HTTP Request Header to send to the 
-server at port 82 and parses the results of the response sent back
+server and parses the results of the response sent back
 """
 
 USERAGENT="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 (.NET CLR 3.5.30729)"
@@ -19,7 +20,7 @@ class Request:
         self.user_agent = user_agent
         self.status_code = 0
         self.location = ""
-
+        # self.crawler = Crawler(self.hostname, self)
         context = ssl.SSLContext(ssl.PROTOCOL_TLS)
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.https_socket = context.wrap_socket(self.socket, server_hostname=self.hostname)
@@ -39,17 +40,37 @@ class Request:
             header += "\r\n"
             header += data_str
 
-        header += "Connection: close\r\n"
+        header += "Connection: keep-alive\r\n"
         header += "\r\n"
+        print(header)
         return header
 
     def get(self, path):
         request = self.request_header("GET", path)
         self.https_socket.sendall(request.encode())
 
-        self.recv_data(8)
+        self.response = self.https_socket.recv(4096)
+
+        while True:
+            page = self.https_socket.recv(4096)
+            self.response += page
+            if len(page) != 4096:  # when done receiving data
+                break
+
+        while True:
+            page = self.https_socket.recv(4096)
+            self.response += page
+            if len(page) != 4096:  # when done receiving data
+                break
+
+        while True:
+            page = self.https_socket.recv(4096)
+            self.response += page
+            if len(page) != 4096:  # when done receiving data
+                break
 
         self.response = self.response.split(b'\r\n\r\n')[1]
+        print(self.response)
         return self.response
 
     def post(self, path, data=""):
@@ -61,6 +82,7 @@ class Request:
 
     def get_http_content(self):
         self.response = self.https_socket.recv(4096)
+
         while True:
             page = self.https_socket.recv(4096)
             if len(page) != 4096:  # when done receiving data
@@ -88,3 +110,6 @@ class Request:
                 return json.loads(tokens[i])[key]
             else:
                 i += 1
+
+    def close_socket(self):
+        self.https_socket.close()
