@@ -2,8 +2,6 @@ from bs4 import BeautifulSoup
 from requestlib import Request
 import threading
 from crawler import Crawler
-from list_queue import Queue
-import re
 
 HOSTNAME = "www.rit.edu"
 PORT = 443
@@ -24,7 +22,6 @@ def http_request():
         thread.start()
 
     crawler.join()
-
 
 def main():
     http_request()

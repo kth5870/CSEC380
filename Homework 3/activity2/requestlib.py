@@ -47,13 +47,19 @@ class Request:
         self.https_socket.sendall(request.encode())
 
         self.response = self.https_socket.recv(4096)
+        print(self.response)
 
+        while True:
+            page = self.https_socket.recv(4096)
+            self.response += page
+            if b'</html>' in page:  # when done receiving data
+                break
         # while True:
         #     page = self.https_socket.recv(4096)
         #     self.response += page
         #     if len(page) != 4096:  # when done receiving data
         #         break
-        self.recv_data(3)
+        # self.recv_data(3)
 
         return self.response
 

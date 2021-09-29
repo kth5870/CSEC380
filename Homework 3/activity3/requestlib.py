@@ -54,27 +54,53 @@ class Request:
 
         self.response = self.socket.recv(4096)
 
-
         tokens = self.response.decode().split("\r\n")
-        self.status_code = int(tokens[0].split(" ")[1])
+        status_code = int(tokens[0].split(" ")[1])
 
-        if self.status_code == 301:
-            new_url = tokens[2].split(" ")[1]
+        if status_code == 301:
+            pass
+        else:
+            while True:
+                page = self.socket.recv(4096)
+                self.response += page
+                if b'</html>' in page:  # when done receiving data
+                    break
 
 
-        self.recv_data(3)
-        print(self.response)
+
+            print(self.response)
+            # while True:
+            #     page = self.socket.recv(4096)
+            #     self.response += page
+            #     if len(page) != 4096:  # when done receiving data
+            #         break
+
+
+        # tokens = self.response.decode().split("\r\n")
+        # self.status_code = int(tokens[0].split(" ")[1])
+        #
+        # if self.status_code == 301:
+        #     print(tokens)
+        #     # print(tokens)
+        #     # tokens2 = tokens[1].split(" ")
+        #     for t in tokens:
+        #         if "location:" in t.lower():
+        #             new_url = t.split(" ")[1]
+        #             print(new_url)
+        #             url = ul.urlparse(new_url)
+        #             print(url)
+        #             new_request = Request(url.netloc, 443)
+        #
+        #             return new_request.get(url.path)
+        # else:
+        #     print("request class:", self.response)
+        #     return self.response
 
 
 
 
 
-        # while True:
-        #     page = self.socket.recv(4096)
-        #     self.response += page
-        #     if len(page) != 4096:  # when done receiving data
-        #         break
-        # print(self.response)
+
         # while True:
         #     page = self.socket.recv(4096)
         #     self.response += page
@@ -89,7 +115,6 @@ class Request:
 
         # self.response = self.response
         # print(self.response)
-        return self.response
 
     def post(self, path, data=""):
         request = self.request_header("POST", path, data)

@@ -41,6 +41,7 @@ class Request:
 
         header += "Connection: close\r\n"
         header += "\r\n"
+        print(header)
         return header
 
     def get(self, path):

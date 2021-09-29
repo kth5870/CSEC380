@@ -21,7 +21,9 @@ class Crawler:
             except KeyError:
                 pass
             if url is not None and "#" not in url and url != "":
-                if url[0] == "/":
+                if url[-1] == "/":
+                    url = url.rstrip((url[-1]))
+                elif url[0] == "/":
                     tokens = url.split("/")
                     if not self.check_depth(tokens):
                         self.queue.enqueue(url, len(tokens) - 1)
@@ -41,9 +43,8 @@ class Crawler:
 
     def write_to_file(self, email, depth):
         with open("depth_%s.txt" % depth, "a+") as file:
-            if email not in file:
-                file.write(email + "\n")
-                print("wrote to depth_%s.txt" % depth)
+            file.write(email + "\n")
+            print("wrote to depth_%s.txt" % depth)
 
     def crawl_website(self):
         visited = set()
@@ -61,4 +62,5 @@ class Crawler:
                     self.request.get(url)
                 visited.add(url)
                 self.get_emails(depth)
+                self.get_urls()
             self.request.close_socket()

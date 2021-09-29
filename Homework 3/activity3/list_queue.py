@@ -7,8 +7,10 @@ class Queue:
     def is_empty(self):
         return self.size <= 0
 
-    def enqueue(self, link, depth):
-        data = (link, depth)
+    def enqueue(self, url, depth):
+        if url == "":
+            url = "/"
+        data = (url, depth)
         if data not in self.links:
             self.links.append(data)
             self.size += 1
