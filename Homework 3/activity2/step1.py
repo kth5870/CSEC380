@@ -17,11 +17,15 @@ def http_request():
     crawler = Crawler(request)
     crawler.get_urls()
 
+    threads = []
     for i in range(100):
         thread = threading.Thread(target=crawler.crawl_website())
+        threads.append(thread)
+
         thread.start()
 
-    crawler.join()
+    for t in threads:
+        t.join()
 
 def main():
     http_request()

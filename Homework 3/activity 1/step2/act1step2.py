@@ -36,6 +36,7 @@ def get_image_name(img):
 
 def download_images(img):
         name = get_image_name(img)
+
         if img[0] == "/":
             request = Request("www.rit.edu", 443)
             request.get(img)
@@ -62,7 +63,9 @@ def http_request():
         os.mkdir("images")
 
     pool = Pool(30)
+    print("downloading images... ")
     pool.map(download_images, images)
+    print("done!")
     pool.close()
     pool.join()
 

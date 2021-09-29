@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from requestlib import Request
 from list_queue import Queue
 import re
+import os
 
 MAX_DEPTH = 4
 
@@ -42,7 +43,11 @@ class Crawler:
             self.write_to_file(i, depth)
 
     def write_to_file(self, email, depth):
-        with open("depth_%s.txt" % depth, "a+") as file:
+        try:
+            os.mkdir("results")
+        except FileExistsError:
+            pass
+        with open("results/depth_%s.txt" % depth, "a+") as file:
             file.write(email + "\n")
             print("wrote to depth_%s.txt" % depth)
 

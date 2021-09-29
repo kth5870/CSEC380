@@ -40,6 +40,7 @@ class Request:
 
         header += "Connection: keep-alive\r\n"
         header += "\r\n"
+        print(header)
         return header
 
     def get(self, path):
@@ -49,11 +50,23 @@ class Request:
         self.response = self.https_socket.recv(4096)
         print(self.response)
 
-        while True:
-            page = self.https_socket.recv(4096)
-            self.response += page
-            if b'</html>' in page:  # when done receiving data
-                break
+        tokens = self.response.decode().split("\r\n")
+        status_code = int(tokens[0].split(" ")[1])
+
+        if status_code == 404:
+            print(self.response)
+        if status_code >= 301 and status_code <= 404:
+            pass
+        else:
+            while True:
+                page = self.https_socket.recv(4096)
+                if b'</html>' in page:
+                    self.response += page# when done receiving data
+                    break
+                else:
+                    self.response += page
+
+        print(self.response)
         # while True:
         #     page = self.https_socket.recv(4096)
         #     self.response += page
