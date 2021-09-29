@@ -5,7 +5,7 @@ class Queue:
         self.size = 0
 
     def is_empty(self):
-        return self.size <= 0
+        return len(self.links) == 0
 
     def peek(self):
         return self.links[0]
@@ -29,8 +29,8 @@ class Queue:
             self.size -= 1
             return first
 
-    def size(self):
-        return self.size
+    def get_size(self):
+        return len(self.links)
 
     def get_values(self):
         for item in self.links:

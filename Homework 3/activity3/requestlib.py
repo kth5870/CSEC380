@@ -45,7 +45,6 @@ class Request:
 
         header += "Connection: keep-alive\r\n"
         header += "\r\n"
-        print(header)
         return header
 
     def get(self, path="/"):
@@ -57,7 +56,9 @@ class Request:
         tokens = self.response.decode().split("\r\n")
         status_code = int(tokens[0].split(" ")[1])
 
-        if status_code >= 301 and status_code < 404:
+        if status_code == 404:
+            print(self.response)
+        if status_code >= 301 and status_code <= 404:
             pass
         else:
             while True:

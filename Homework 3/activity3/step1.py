@@ -23,6 +23,7 @@ def read_from_csv(filename):
     with open(filename) as csv_file:
         reader = csv.reader(csv_file)
         for company in reader:
+            LINKS_LIST.append(company[1])
             # url = urlparse(company[1])
             # print(company[1])
             #
@@ -31,7 +32,7 @@ def read_from_csv(filename):
             #     crawler.queue.enqueue(company[1], 0)
             # else:
             #     crawler.queue.enqueue(company[1], len(url.path) - 1)
-            LINKS_LIST.append(company[1])
+
 
             # if "www" not in url.netloc:
             #     netloc = url.netloc
@@ -50,8 +51,9 @@ def http_request():
     # for link in LINKS_LIST:
     #     print(link)
         # print("LNK: ", link)
-    crawler = Crawler("http://www.enterpriseproducts.com")
-
+    print("creating crawler instance...")
+    crawler = Crawler("http://www.dupont.com")
+    print("done!")
     crawler.crawl_website()
         # break
         # break
