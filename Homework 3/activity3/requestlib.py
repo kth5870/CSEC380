@@ -57,18 +57,17 @@ class Request:
         tokens = self.response.decode().split("\r\n")
         status_code = int(tokens[0].split(" ")[1])
 
-        if status_code == 301:
+        if status_code >= 301 and status_code < 404:
             pass
         else:
             while True:
                 page = self.socket.recv(4096)
-                self.response += page
                 if b'</html>' in page:  # when done receiving data
+                    self.response += page
                     break
+                else:
+                    self.response += page
 
-
-
-            print(self.response)
             # while True:
             #     page = self.socket.recv(4096)
             #     self.response += page

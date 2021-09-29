@@ -47,11 +47,12 @@ def http_request():
     # crawler = None
     # crawler = Crawler(LINKS_LIST[1])
     # crawler.crawl_website()
-    for link in LINKS_LIST:
+    # for link in LINKS_LIST:
+    #     print(link)
         # print("LNK: ", link)
-        crawler = Crawler(link)
+    crawler = Crawler("http://www.enterpriseproducts.com")
 
-        crawler.crawl_website()
+    crawler.crawl_website()
         # break
         # break
         # url = link[0]

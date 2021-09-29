@@ -7,6 +7,9 @@ class Queue:
     def is_empty(self):
         return self.size <= 0
 
+    def peek(self):
+        return self.links[0]
+
     def enqueue(self, url, depth):
         if url == "":
             url = "/"

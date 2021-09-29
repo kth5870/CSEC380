@@ -17,12 +17,10 @@ class Crawler:
             self.port = 443
         else:
             self.port = port
+
         self.links = set()
         self.queue = Queue()
-        # if self.url.path == "":
-        #     self.queue.enqueue(0, self.hostname, self.url.path)
-        # else:
-        # tokens =
+
         self.queue.enqueue(self.url.path, len(self.url.path.split("/")) - 1)
         self.queue.get_values()
 
@@ -47,20 +45,22 @@ class Crawler:
                             self.queue.enqueue(url, len(tokens) - 1)
                             self.links.add((url, len(tokens) - 1))
                 elif self.hostname in url:
-                    link = url.replace("https://%s" % self.hostname, "")
-                    tokens = link.split("/")
+                    url = urlparse(url)
+
+                    path = url.path
+                    if path == "":
+                        path = "/"
+
+                    tokens = path.split("/")
                     if not self.check_depth(tokens):
-                        self.queue.enqueue(url, len(tokens) - 1)
-                        self.links.add((url, len(tokens) - 1))
-        print(self.links)
+
+                        self.queue.enqueue(url.path, len(tokens) - 1)
+                        self.links.add((url.path, len(tokens) - 1))
+        # print("links: ", self.links)
+        print("links length: ", len(self.links))
 
     def check_depth(self, url):
         return len(url) > MAX_DEPTH
-
-    # def get_emails(self, depth):
-    #     email = re.findall(r'[a-zA-Z0-9\.\-\_,]+\@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,24}', self.request.response.decode())
-    #     for _ in set(email):
-    #         self.write_to_file(depth)
 
     def write_to_file(self):
         try:
@@ -68,7 +68,7 @@ class Crawler:
         except FileExistsError:
             pass
         for link in self.links:
-            url, depth = link[1], link[2]
+            url, depth = link[0], link[1]
             if url != "":
                 with open("output/%s_depth_%s.txt" % (self.hostname, depth), "a+") as file:
                     file.write(url + "\n")
@@ -76,7 +76,7 @@ class Crawler:
     def crawl_website(self):
         while not self.queue.is_empty():
             token = self.queue.dequeue()
-            print(token)
+
             path = token[0]
             self.request = Request(self.hostname, self.port)
 
@@ -85,30 +85,40 @@ class Crawler:
 
                 tokens = self.request.response.decode().split("\r\n")
                 status_code = int(tokens[0].split(" ")[1])
+                print(status_code)
 
-                if status_code == 301:
+                if status_code >= 301 and status_code < 400:
                     for t in tokens:
                         if "location:" in t.lower():
                             new_url = t.split(" ")[1]
                             url = urlparse(new_url)
+                            print(url)
+                            uri = url.path
+                            print(url.path)
+
                             self.hostname = url.netloc
-                            self.request = Request(self.hostname, 443)
-                            self.request.get(url.path)
-                            self.visited.add(path)
+                            print(self.hostname)
+                            self.port = 443
+
+                            if url.query != "":
+                                uri = "%s?%s" % (url.path, url.query)
+                                print(uri)
+
+                            self.request = Request(self.hostname, self.port)
+                            self.request.get(uri)
+                            self.visited.add(uri)
                             self.get_urls()
-                            self.write_to_file()
                             self.request.close_socket()
                             break
                 else:
                     self.visited.add(path)
                     self.get_urls()
-                    self.write_to_file()
-
 
             print("visited", self.visited)
-            self.get_urls()
+            print("visited length:", len(self.visited))
             self.request.close_socket()
             self.crawl_website()
+        self.write_to_file()
             # if self.url.path != "":
             #     self.request.get(self.url.path)
             # else:
