@@ -3,7 +3,7 @@ from requestlib import Request
 import threading
 from crawler import Crawler
 from list_queue import Queue
-import re
+import threading
 import csv
 from urllib.parse import urlparse
 
@@ -48,13 +48,13 @@ def http_request():
     # crawler = None
     # crawler = Crawler(LINKS_LIST[1])
     # crawler.crawl_website()
-    # for link in LINKS_LIST:
+    for link in LINKS_LIST:
     #     print(link)
         # print("LNK: ", link)
-    print("creating crawler instance...")
-    crawler = Crawler("http://www.dupont.com")
-    print("done!")
-    crawler.crawl_website()
+        print("creating crawler instance...")
+        crawler = Crawler(link)
+        print("done!")
+        crawler.crawl_website()
         # break
         # break
         # url = link[0]
