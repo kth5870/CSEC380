@@ -28,7 +28,11 @@ class Crawler(threading.Thread):
     def get_urls(self):
         print("getting new urls: %s..." % self.hostname)
         url = ""
-        soup = BeautifulSoup(self.request.response, "html.parser")
+        soup = ""
+        try:
+            soup = BeautifulSoup(self.request.response, "html.parser")
+        except AttributeError:
+            pass
         for anchor in soup.find_all("a"):
             try:
                 url = anchor.get("href")
@@ -99,7 +103,7 @@ class Crawler(threading.Thread):
                 try:
                     tokens = self.request.response.decode().split("\r\n")
                     status_code = int(tokens[0].split(" ")[1])
-                except UnicodeDecodeError:
+                except UnicodeDecodeError or AttributeError:
                     pass
                 # print("crawler", status_code)
                 if status_code != 404:

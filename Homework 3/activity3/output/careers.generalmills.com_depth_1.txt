@@ -4,3 +4,9 @@
 /en
 /
 /racialequity
+/
+/racialequity
+/en
+/racialequity
+/
+/en

@@ -1,0 +1,7 @@
+/safety-policy.html
+/sitemap.html
+/legal-notice.html
+/privacy-policy.html
+/company.html
+/home.html
+/sustainability.html

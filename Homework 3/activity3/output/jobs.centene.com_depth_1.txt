@@ -26,3 +26,17 @@
 /who-we-are.html
 /contact.html
 /covid-19-resource-center.html
+/privacy-policy.html
+/purchase-order-terms-conditions.html
+/site-map.html
+/who-we-are.html
+/contact.html
+/careers.html
+/featured-stories-archive.html
+/covid-19-resource-center.html
+/media-contact.html
+/news.html
+/
+/products-and-services.html
+/why-were-different.html
+/terms-conditions.html

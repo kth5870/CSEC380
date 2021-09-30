@@ -10,3 +10,15 @@
 /en/Health
 /home/sitemap
 /en/Brands
+/home/sitemap
+/en/Brands
+/en/Company
+/en/Careers
+/en/product-locator
+/en/Health
+/en/Brands
+/home/sitemap
+/en/Company
+/en/Careers
+/en/Health
+/en/product-locator
