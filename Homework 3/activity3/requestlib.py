@@ -19,14 +19,18 @@ class Request:
         self.user_agent = user_agent
         self.status_code = 0
 
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        try:
+            self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-        if self.port == 443:
-            context = ssl.SSLContext(ssl.PROTOCOL_TLS)
-            self.socket = context.wrap_socket(self.socket, server_hostname=self.hostname)
-            self.socket.connect((self.hostname, self.port))
-        else:
-            self.socket.connect((self.hostname, self.port))
+            if self.port == 443:
+                context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+                self.socket = context.wrap_socket(self.socket, server_hostname=self.hostname)
+                self.socket.connect((self.hostname, self.port))
+            else:
+                self.socket.connect((self.hostname, self.port))
+        except Exception:
+            pass
+
 
     def request_header(self, request_type, path, data=""):
         header = "%s %s HTTP/1.1\r\n" % (request_type, path)
@@ -48,26 +52,30 @@ class Request:
         return header
 
     def get(self, path="/"):
-        request = self.request_header("GET", path)
-        self.socket.sendall(request.encode())
+        try:
+            request = self.request_header("GET", path)
+            self.socket.sendall(request.encode())
 
-        self.response = self.socket.recv(4096)
+            self.response = self.socket.recv(4096)
 
-        tokens = self.response.decode().split("\r\n")
-        status_code = int(tokens[0].split(" ")[1])
+            tokens = self.response.decode().split("\r\n")
+            status_code = int(tokens[0].split(" ")[1])
 
-        if status_code == 404:
-            print(self.response)
-        if status_code >= 301 and status_code <= 404:
+            if status_code == 404:
+                print("404")
+            if status_code >= 301 and status_code <= 404:
+                pass
+            else:
+                while True:
+                    page = self.socket.recv(4096)
+                    if b'</html>' in page:  # when done receiving data
+                        self.response += page
+                        break
+                    else:
+                        self.response += page
+        except Exception:
             pass
-        else:
-            while True:
-                page = self.socket.recv(4096)
-                if b'</html>' in page:  # when done receiving data
-                    self.response += page
-                    break
-                else:
-                    self.response += page
+
 
     def post(self, path, data=""):
         request = self.request_header("POST", path, data)

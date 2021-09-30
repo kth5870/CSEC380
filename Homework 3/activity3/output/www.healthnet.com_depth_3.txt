@@ -1,0 +1,2 @@
+/content/healthnet/es.html
+/content/healthnet/en_us.html

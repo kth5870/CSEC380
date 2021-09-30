@@ -53,8 +53,8 @@ def http_request():
         # print("LNK: ", link)
         print("creating crawler instance...")
         crawler = Crawler(link)
+        crawler.start()
         print("done!")
-        crawler.crawl_website()
         # break
         # break
         # url = link[0]

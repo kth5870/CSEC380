@@ -4,11 +4,13 @@ from bs4 import BeautifulSoup
 from requestlib import Request
 from list_queue import Queue
 import os
+import threading
 
 MAX_DEPTH = 4
 
-class Crawler:
+class Crawler(threading.Thread):
     def __init__(self, url="", port=80):
+        super().__init__()
         self.url = urlparse(url)
         self.hostname = self.url.netloc
         self.visited = set()
@@ -24,7 +26,7 @@ class Crawler:
         self.queue.get_values()
 
     def get_urls(self):
-        print("getting new urls...")
+        print("getting new urls: %s..." % self.hostname)
         url = ""
         soup = BeautifulSoup(self.request.response, "html.parser")
         for anchor in soup.find_all("a"):
@@ -32,35 +34,37 @@ class Crawler:
                 url = anchor.get("href")
             except KeyError:
                 pass
-            if url is not None and "#" not in url and url != "":
-                if url[0] == "/":
-                    if url[-1] == "/" and len(url) != 1:
-                        url = url.rstrip(url[-1])
-                        tokens = url.split("/")
-                        if not self.check_depth(tokens):
-                            tuple = (url, len(tokens) - 1)
-                            self.queue.enqueue(url, len(tokens) - 1)
-                            if tuple not in self.links:
-                                self.links.add(tuple)
-                    else:
-                        tokens = url.split("/")
-                        if not self.check_depth(tokens):
-                            tuple = (url, len(tokens) - 1)
-                            self.queue.enqueue(url, len(tokens) - 1)
-                            if tuple not in self.links:
-                                self.links.add(tuple)
-                elif self.hostname in url:
-                    uri = urlparse(url)
-                    path = uri.path
-                    if path == "":
-                        path = "/"
 
-                    tokens = path.split("/")
-                    if not self.check_depth(tokens):
-                        tuple = (path, len(tokens) - 1)
-                        self.queue.enqueue(path, len(tokens) - 1)
-                        if tuple not in self.links:
-                            self.links.add(tuple)
+            if url is not None and "#" not in url and url != "":
+                if "pdf" not in url:
+                    if url[0] == "/":
+                        if url[-1] == "/" and len(url) != 1:
+                            url = url.rstrip(url[-1])
+                            tokens = url.split("/")
+                            if not self.check_depth(tokens):
+                                tuple = (url, len(tokens) - 1)
+                                self.queue.enqueue(url, len(tokens) - 1)
+                                if tuple not in self.links:
+                                    self.links.add(tuple)
+                        else:
+                            tokens = url.split("/")
+                            if not self.check_depth(tokens):
+                                tuple = (url, len(tokens) - 1)
+                                self.queue.enqueue(url, len(tokens) - 1)
+                                if tuple not in self.links:
+                                    self.links.add(tuple)
+                    elif self.hostname in url:
+                        uri = urlparse(url)
+                        path = uri.path
+                        if path == "":
+                            path = "/"
+
+                        tokens = path.split("/")
+                        if not self.check_depth(tokens):
+                            tuple = (path, len(tokens) - 1)
+                            self.queue.enqueue(path, len(tokens) - 1)
+                            if tuple not in self.links:
+                                self.links.add(tuple)
         # print("links length: ", len(self.links))
         print("done!")
 
@@ -72,7 +76,7 @@ class Crawler:
             os.mkdir("output")
         except FileExistsError:
             pass
-        print("writing links to file...")
+        print("writing links to file: %s..." %self.hostname)
         for link in self.links:
             url, depth = link[0], link[1]
             if url != "":
@@ -81,7 +85,7 @@ class Crawler:
         print("done!")
 
     def crawl_website(self):
-        print("crawl_website...")
+        print("crawl_website %s..." % self.hostname)
         while not self.queue.is_empty():
             token = self.queue.dequeue()
 
@@ -90,9 +94,13 @@ class Crawler:
             # print(path)
             if path not in self.visited:
                 self.request.get(path)
-
-                tokens = self.request.response.decode().split("\r\n")
-                status_code = int(tokens[0].split(" ")[1])
+                tokens = ""
+                status_code = 0
+                try:
+                    tokens = self.request.response.decode().split("\r\n")
+                    status_code = int(tokens[0].split(" ")[1])
+                except UnicodeDecodeError:
+                    pass
                 # print("crawler", status_code)
                 if status_code != 404:
                     if status_code >= 301 and status_code < 400:
@@ -123,10 +131,13 @@ class Crawler:
                     else:
                         self.visited.add(path)
                         self.get_urls()
+                # print("visited length:", len(self.visited))
+                # print("queue length: ", self.queue.get_size())
         print("done!")
         self.write_to_file()
-            # print("visited length:", len(self.visited))
-            # print("queue length: ", self.queue.get_size())
+
+    def run(self):
+        self.crawl_website()
 
             # if self.url.path != "":
             #     self.request.get(self.url.path)
