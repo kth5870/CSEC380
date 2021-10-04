@@ -21,12 +21,11 @@ def http_request():
     for i in range(100):
         thread = threading.Thread(target=crawler.crawl_website())
         threads.append(thread)
-
         thread.start()
 
     for t in threads:
         try:
-            t.join(timeout=10)
+            t.join(timeout=5)
         except:
             print("Timeout occurred")
             continue

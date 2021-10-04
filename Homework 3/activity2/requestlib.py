@@ -23,6 +23,7 @@ class Request:
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.https_socket = context.wrap_socket(self.socket, server_hostname=self.hostname)
         self.https_socket.connect((self.hostname, self.port))
+        self.https_socket.settimeout(5)
 
     def request_header(self, request_type, path, data=""):
         header = "%s %s HTTP/1.1\r\n" % (request_type, path)
@@ -46,35 +47,41 @@ class Request:
     def get(self, path):
         request = self.request_header("GET", path)
         self.https_socket.sendall(request.encode())
+        self.response = b''
 
-        self.response = self.https_socket.recv(4096)
-        print(self.response)
 
-        tokens = self.response.decode().split("\r\n")
-        status_code = int(tokens[0].split(" ")[1])
 
-        if status_code == 404:
+        try:
+            self.response += self.https_socket.recv(4096)
             print(self.response)
-        if status_code >= 301 and status_code <= 404:
-            pass
-        else:
-            while True:
-                page = self.https_socket.recv(4096)
-                # print(self.response)
-                self.response += page  # when done receiving data
 
-                if b'</html>' in self.response:
-                    break
-                # else:
-                #     self.response += page
+            tokens = self.response.decode().split("\r\n")
+            status_code = int(tokens[0].split(" ")[1])
 
-        print(self.response)
-        # while True:
-        #     page = self.https_socket.recv(4096)
-        #     self.response += page
-        #     if len(page) != 4096:  # when done receiving data
-        #         break
-        # self.recv_data(3)
+            if status_code == 404:
+                print(self.response)
+            if status_code >= 301 and status_code <= 404:
+                pass
+            else:
+                while True:
+                    page = self.https_socket.recv(4096 * 360)
+                    # print(self.response)
+                    self.response += page  # when done receiving data
+
+                    if b'</html>' in self.response:
+                        break
+                    # else:
+                    #     self.response += page
+
+            print(self.response)
+            # while True:
+            #     page = self.https_socket.recv(4096)
+            #     self.response += page
+            #     if len(page) != 4096:  # when done receiving data
+            #         break
+            # self.recv_data(3)
+        except socket.timeout:
+            print("Timed out on page {}".format(path))
 
         return self.response
 
@@ -86,23 +93,23 @@ class Request:
         return self.response
 
     def get_http_content(self):
-        self.response = self.https_socket.recv(4096)
+        self.response = self.https_socket.recv(4096 * 360)
 
         while True:
-            page = self.https_socket.recv(4096)
+            page = self.https_socket.recv(4096 * 360)
             if len(page) != 4096:  # when done receiving data
                 break
 
         self.recv_data(2)
 
     def recv_data(self, number):
-        self.response = self.https_socket.recv(4096)
+        self.response = self.https_socket.recv(4096 * 360)
 
         while number > 0:
             while True:
-                page = self.https_socket.recv(4096)
+                page = self.https_socket.recv(4096 * 360)
                 self.response += page
-                if len(page) != 4096:  # when done receiving data
+                if len(page) != 4096 * 360:  # when done receiving data
                     break
             number -= 1
 

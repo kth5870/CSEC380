@@ -38,7 +38,12 @@ class Crawler:
         return len(url) > MAX_DEPTH
 
     def get_emails(self, depth):
-        email = re.findall(r'[a-zA-Z0-9\.\-\_,]+\@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,24}', self.request.response.decode())
+        email = []
+        try:
+            self.request.decoded = self.request.response.decode()
+            email = re.findall(r'[a-zA-Z0-9\.\-\_,]+\@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,24}', self.request.decoded)
+        except UnicodeDecodeError:
+            print("Error decoding page")
         for i in set(email):
             self.write_to_file(i, depth)
 
