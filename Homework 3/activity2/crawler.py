@@ -65,7 +65,8 @@ class Crawler:
                     self.request.get(url)
                 else:
                     self.request.get(url)
-                visited.add(url)
+                if url not in visited:
+                    visited.add(url)
                 self.get_emails(depth)
                 self.get_urls()
             self.request.close_socket()

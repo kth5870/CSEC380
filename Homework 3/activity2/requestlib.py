@@ -60,11 +60,13 @@ class Request:
         else:
             while True:
                 page = self.https_socket.recv(4096)
-                if b'</html>' in page:
-                    self.response += page# when done receiving data
+                # print(self.response)
+                self.response += page  # when done receiving data
+
+                if b'</html>' in self.response:
                     break
-                else:
-                    self.response += page
+                # else:
+                #     self.response += page
 
         print(self.response)
         # while True:

@@ -25,7 +25,11 @@ def http_request():
         thread.start()
 
     for t in threads:
-        t.join()
+        try:
+            t.join(timeout=10)
+        except:
+            print("Timeout occurred")
+            continue
 
 def main():
     http_request()
