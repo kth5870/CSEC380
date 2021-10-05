@@ -52,30 +52,27 @@ class Request:
         return header
 
     def get(self, path="/"):
-        try:
             request = self.request_header("GET", path)
             self.socket.sendall(request.encode())
+            self.response = b''
+            try:
+                self.response += self.socket.recv(4096)
 
-            self.response = self.socket.recv(4096)
+                tokens = self.response.decode().split("\r\n")
+                status_code = int(tokens[0].split(" ")[1])
 
-            tokens = self.response.decode().split("\r\n")
-            status_code = int(tokens[0].split(" ")[1])
-
-            if status_code == 404:
-                print("404")
-            if status_code >= 301 and status_code <= 404:
+                if status_code == 404:
+                    print("404")
+                if status_code >= 301 and status_code <= 404:
+                    pass
+                else:
+                    while True:
+                        page = self.socket.recv(4096)
+                        self.response += page
+                        if b'</html>' in page:  # when done receiving data
+                            break
+            except socket.timeout:
                 pass
-            else:
-                while True:
-                    page = self.socket.recv(4096)
-                    if b'</html>' in page:  # when done receiving data
-                        self.response += page
-                        break
-                    else:
-                        self.response += page
-        except Exception:
-            pass
-
 
     def post(self, path, data=""):
         request = self.request_header("POST", path, data)

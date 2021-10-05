@@ -24,52 +24,15 @@ def read_from_csv(filename):
         reader = csv.reader(csv_file)
         for company in reader:
             LINKS_LIST.append(company[1])
-            # url = urlparse(company[1])
-            # print(company[1])
-            #
-            # tokens = company[1].split("//")
-            # if len(url.path) - 1 == -1:
-            #     crawler.queue.enqueue(company[1], 0)
-            # else:
-            #     crawler.queue.enqueue(company[1], len(url.path) - 1)
-
-
-            # if "www" not in url.netloc:
-            #     netloc = url.netloc
-            #     port = url.scheme
-            #     new_url = "www." + netloc
-            #     LINKS_LIST.append((new_url, port))
-            # else:
-            #     LINKS_LIST.append((url.netloc, url.scheme))
-    # print(LINKS_LIST)
 
 def http_request():
     read_from_csv("companies.csv")
-    # crawler = None
-    # crawler = Crawler(LINKS_LIST[1])
-    # crawler.crawl_website()
+
     for link in LINKS_LIST:
-    #     print(link)
-        # print("LNK: ", link)
         print("creating crawler instance...")
         crawler = Crawler(link)
         crawler.start()
         print("done!")
-        # break
-        # break
-        # url = link[0]
-        # scheme = link[1]
-        # if scheme == "http":
-        #     crawler = Crawler("http://%s" % url, 80)
-        # else:
-        #     crawler = Crawler("https://%s" % url, 443)
-    # crawler.get_urls()
-    # crawler.crawl_website()
-    # for i in range(100):
-    #     thread = threading.Thread(target=crawler.crawl_website())
-    #     thread.start()
-    #
-    # crawler.join()
 
 def main():
     http_request()

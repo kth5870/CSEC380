@@ -1,4 +1,3 @@
-from bs4 import BeautifulSoup
 from requestlib import Request
 import threading
 from crawler import Crawler
