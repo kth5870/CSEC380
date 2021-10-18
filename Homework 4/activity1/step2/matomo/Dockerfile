@@ -1,1 +1,1 @@
-FROM matomo:4.2.1-apache
+FROM matomo:4.5.0-apache

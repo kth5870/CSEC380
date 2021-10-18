@@ -21,4 +21,6 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./step2
+    ports: 
+      - "81:80"
       
