@@ -19,7 +19,7 @@
 
         <script type="text/javascript">
             function plugin() {
-                var length = Document.plugins.length;
+                var length = navigator.plugins.length;
                 var s = "";
                 for (var i = 0; i < length; i++) {
                     s += length[i].name + "<br>"
