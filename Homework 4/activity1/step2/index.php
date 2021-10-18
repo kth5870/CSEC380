@@ -8,8 +8,8 @@
             var _paq = window._paq = window._pag || [];
             _paq.push(['trackPageView']);
             _paq.push(['enableLinkTracing']);
-            (function (){
-                var url = "http://172.20.0.4/";
+            (function () {
+                var url = "//172.20.0.4/";
                 _paq.push(['setTrackerUrl', url+'matomo.php']);
                 _paq.push(['setSiteId', '1']);
                 var d=document, g=d.createElement('script'), s=d.getElementByTagName('script'[0]);
@@ -17,15 +17,15 @@
             })();
         </script>
 
-        <script type="text/javascript">
-            function plugin() {
+        <script>
+            window.onload = plugin() {
                 var length = navigator.plugins.length;
                 var s = "";
                 for (var i = 0; i < length; i++) {
                     s += length[i].name + "<br>"
                 }
-            document.getElementById("plugins").innerHTML = txt;
-            window.onload = plugin;
+            document.getElementById("plugins").innerHTML = s;
+            }
         </script>
 
     </head>
