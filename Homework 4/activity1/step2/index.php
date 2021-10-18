@@ -32,7 +32,9 @@
 
     <body>
         <?php
-            $referer = $_SERVER["HTTP_REFERER"];
+            $referer = isset($_POST['referer']) ? trim($_POST['referer']) : (isset($_SERVER['HTTP_REFERER']) ? base64_encode($_SERVER['HTTP_REFERER']) : false);
+
+            // $referer = $_SERVER["HTTP_REFERER"];
             $ip = $_SERVER["REMOTE_ADDR"];
             $user_agent = $_SERVER["HTTP_USER_AGENT"];
 
