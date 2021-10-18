@@ -9,7 +9,7 @@
             _paq.push(['trackPageView']);
             _paq.push(['enableLinkTracing']);
             (function () {
-                var url = "//129.21.85.80/";
+                var url = "//129.21.85.80:6969/";
                 _paq.push(['setTrackerUrl', url+'matomo.php']);
                 _paq.push(['setSiteId', '1']);
                 var d=document, g=d.createElement('script'), s=d.getElementByTagName('script'[0]);
