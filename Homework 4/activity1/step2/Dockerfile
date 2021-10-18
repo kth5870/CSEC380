@@ -2,4 +2,4 @@ FROM php:apache
 
 COPY index.php /var/www/html/index.php
 
-EXPOSE 81
+EXPOSE 8080
