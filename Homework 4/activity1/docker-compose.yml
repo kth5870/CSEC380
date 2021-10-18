@@ -1,21 +1,24 @@
 version: "3"
-  services:
-    matomo:
-      environment:
-        - MATOMO_DATABASE_HOST=matomo_db
-      env_file:
-        - ./db.env
-      depends_on:
+services:
+  matomo:
+    build:
+      context: ./step2/matomo
+    environment:
+      - MATOMO_DATABASE_HOST=matomo_db
+    env_file:
+      - ./db.env
+    depends_on:
       - matomo_db
       
-    matomo_db:
-      image: mysql
-      environment: 
-        - MYSQL_ROOT_PASSWORD=Matomo-123!
-      env_file:
-        - ./db.env
+  matomo_db:
+    image: mysql
+    environment: 
+      - MYSQL_ROOT_PASSWORD=Matomo-123!
+    env_file:
+      - ./db.env
 
-    webserver:
-      build:
-        context: ./step2
+  webserver:
+    build:
+      dockerfile: Dockerfile
+      context: ./step2
       

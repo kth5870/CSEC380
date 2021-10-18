@@ -1,4 +1,4 @@
-FROM php:nginx
+FROM php:apache
 
 COPY index.php /var/www/html/index.php
 
