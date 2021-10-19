@@ -27,6 +27,11 @@ if($has_session){
 	if(isset($_GET['id'])){
 		$id_to_get = $_GET['id'];
 	}
+
+	// CSRF Fix - Activity 2
+	if ($_SESSION["token"] !== $_GET["token"]) {
+		die("INVALID TOKEN");
+	}
 	
 	if(isset($_GET['comment'])){
 		$maxLength = 300;

@@ -46,6 +46,13 @@ if($has_session){
 	}else{
 		die("Error - Issue preparing statement: " . mysqli_error($mysqli));
 	}
+
+	// CSRF Fix - Activity 2
+	if ($_SESSION["token"] !== $_GET["token"]) {
+		die("INVALID TOKEN");
+	}
+
+	
 	$id_to_get = $_SESSION['user_id'];
 	if(isset($_GET['id'])){
 		$id_to_get = $_GET['id'];

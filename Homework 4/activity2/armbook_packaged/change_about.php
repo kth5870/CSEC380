@@ -23,6 +23,12 @@ if($has_session){
 	}
 	// Reset our counter
 	$_SESSION['login']['born'] = time();
+
+	// CSRF Fix - Activity 2
+	if ($_SESSION["token"] !== $_POST["token"]) {
+		die("INVALID TOKEN");
+	}
+
 	$id_to_get = $_SESSION['user_id'];
 	print_r($_POST);
 	if(isset($_POST['name']) and isset($_POST['value'])){

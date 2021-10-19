@@ -156,7 +156,7 @@ if($has_session){
 			$('#interests').editable();			
 			$('#statUpdate').keypress(function (e) {
 			  if (e.which == 13) {
-				$.get( "add_comment.php?id=<?php echo $id_to_get; ?>&comment="+$('#statUpdate').val(), function( data ) {
+				$.get( "add_comment.php?id=<?php echo $id_to_get; ?>&token=<?php echo $_SESSION['token']; ?>&comment="+$('#statUpdate').val(), function( data ) {
 					location.reload();
 				});	
 				return false;
