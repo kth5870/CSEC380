@@ -9,10 +9,10 @@
             _paq.push(['trackPageView']);
             _paq.push(['enableLinkTracing']);
             (function () {
-                var url = "//129.21.85.80:6969/";
+                var url = "//129.21.84.170:6970/";
                 _paq.push(['setTrackerUrl', url+'matomo.php']);
                 _paq.push(['setSiteId', '1']);
-                var d=document, g=d.createElement('script'), s=d.getElementByTagName('script'[0]);
+                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
                 g.type="text/javascript"; g.async=true; g.src=url+'matomo.js'; s.parentNode.insertBefore(g, s);
             })();
         </script>
@@ -25,7 +25,7 @@
                     s += length[i].name + "<br>"
                 }
             document.getElementById("plugins").innerHTML = s;
-            }
+            };
         </script>
 
     </head>
