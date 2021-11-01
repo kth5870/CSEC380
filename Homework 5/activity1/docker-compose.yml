@@ -7,7 +7,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./database
-    ports: 
+    port: 
       -"3306":"3306"
 
   webserver:
