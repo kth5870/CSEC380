@@ -7,8 +7,8 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./database
-    port: 
-      -"3306":"3306"
+    ports: 
+      -"3306:3306"
 
   webserver:
     build:
