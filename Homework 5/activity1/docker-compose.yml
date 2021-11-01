@@ -3,7 +3,7 @@ services:
   mysql_db:
     image: mysql
     environment: 
-      - MYSQL_ROOT_PASSWORD=Password-123
+      - MYSQL_ROOT_PASSWORD=csec380
     build:
       dockerfile: Dockerfile
       context: ./database
