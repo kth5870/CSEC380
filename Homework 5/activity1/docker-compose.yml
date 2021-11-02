@@ -1,8 +1,7 @@
 version: "3"
 services:    
   mysql_db:
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
+    image: mysql:5.7
     environment: 
       - MYSQL_ROOT_PASSWORD=csec380
     build:
