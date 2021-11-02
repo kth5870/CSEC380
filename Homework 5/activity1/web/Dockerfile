@@ -1,4 +1,4 @@
-FROM  php:7.2-apache
+FROM  php:latest-apache
 
 COPY ./armbook_packaged/ /var/www/html/
 
