@@ -1,6 +1,6 @@
 <?php
 
-$dbhost = 'mysql';
+$dbhost = 'mysql_db';
 $dbuser = 'root';
 $dbpass = 'csec380';
 $dbname = 'armbook';
