@@ -1,6 +1,6 @@
 version: "3"
 services:    
-  mysql_db:
+  mysql:
     image: mysql
     environment: 
       - MYSQL_ROOT_PASSWORD=csec380
