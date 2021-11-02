@@ -29,7 +29,6 @@ SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS armbook;
 USE armbook;
 
-
 CREATE TABLE IF NOT EXISTS `chat` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `from` varchar(255) NOT NULL DEFAULT '',
