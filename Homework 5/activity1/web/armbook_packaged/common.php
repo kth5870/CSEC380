@@ -2,7 +2,7 @@
 
 $dbhost = 'mysql';
 $dbuser = 'root';
-$dbpass = '';
+$dbpass = 'csec380';
 $dbname = 'armbook';
 $mysqli = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
 if ($mysqli->connect_errno) {

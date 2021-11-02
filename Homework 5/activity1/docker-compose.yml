@@ -1,8 +1,10 @@
 version: "3"
 services:    
-  mysql:
+  mysql_db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
     environment: 
-      - "MYSQL_ALLOW_EMPTY_PASSWORD=yes"
+      - MYSQL_ROOT_PASSWORD=csec380
     build:
       dockerfile: Dockerfile
       context: ./database
