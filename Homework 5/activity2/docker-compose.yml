@@ -1,0 +1,21 @@
+version: "3"
+services:    
+  mysql:
+    image: mysql
+    environment: 
+      - MYSQL_ROOT_PASSWORD=csec380
+    build:
+      dockerfile: Dockerfile
+      context: ./database
+    ports: 
+      - "3306:3306"
+
+  webserver:
+    build:
+      dockerfile: Dockerfile
+      context: ./web
+    ports:
+      - "443:443"
+    restart: always
+
+      
