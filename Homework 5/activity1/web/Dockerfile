@@ -1,7 +1,7 @@
 FROM  php:8-apache
 
 RUN mkdir -p /etc/apache2/ssl
-RUN a2enmod ssl && a2enmod rewrite && a2enmod http2
+RUN a2enmod ssl && a2enmod rewrite && a2enmod http2 && a2enmod headers 
 RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 
 COPY ./armbook_packaged/ /var/www/html/
