@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Welcome to Armbook - Log In, Sign Up or Learn More</title>
-<link rel="stylesheet" type="text/css" href="background.css" />
+<link nonce="csec380" rel="stylesheet" type="text/css" href="background.css" />
 <?php 
 include("common.php"); 
 
@@ -10,8 +10,8 @@ if(isset($_SESSION['login'])){
 	header("Location: http://localhost/home.php");
 }
 ?>
-<script type="text/javascript" src="js/jquery.js"></script>  
-<script type="text/javascript">                                         
+<script nonce="csec380" type="text/javascript" src="js/jquery.js"></script>  
+<script nonce="csec380" type="text/javascript">                                         
 	$(document).ready(function() {
 		// Registration validation
 		$('#regForm').submit(function(event) {

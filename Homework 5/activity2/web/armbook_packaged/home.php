@@ -120,23 +120,23 @@ if($has_session){
 	}		
 }
 ?>
-	<link rel="stylesheet" type="text/css" href="background2.css" />
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-	<script src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/jquery.mousewheel-3.0.6.pack.js"></script>
+	<link nonce="csec380" rel="stylesheet" type="text/css" href="background2.css" />
+	<link nonce="csec380" href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<script nonce="csec380" src="js/jquery.js"></script>
+	<script nonce="csec380" type="text/javascript" src="js/jquery.mousewheel-3.0.6.pack.js"></script>
 	<!-- Add fancyBox -->
-	<script type="text/javascript" src="js/source/jquery.fancybox.js?v=2.1.5"></script>
-	<link rel="stylesheet" type="text/css" href="js/source/jquery.fancybox.css?v=2.1.5" media="screen" />
-	<link rel="stylesheet" type="text/css" href="js/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" />
-	<script type="text/javascript" src="js/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
-	<link rel="stylesheet" type="text/css" href="js/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" />
-	<script type="text/javascript" src="js/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
-	<script type="text/javascript" src="js/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
-	<script src="js/jquery-ui-1.10.1.custom.min.js"></script>
+	<script nonce="csec380" type="text/javascript" src="js/source/jquery.fancybox.js?v=2.1.5"></script>
+	<link nonce="csec380" rel="stylesheet" type="text/css" href="js/source/jquery.fancybox.css?v=2.1.5" media="screen" />
+	<link nonce="csec380" rel="stylesheet" type="text/css" href="js/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" />
+	<script nonce="csec380" type="text/javascript" src="js/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+	<link nonce="csec380" rel="stylesheet" type="text/css" href="js/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" />
+	<script nonce="csec380" type="text/javascript" src="js/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+	<script nonce="csec380" type="text/javascript" src="js/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+	<script nonce="csec380" src="js/jquery-ui-1.10.1.custom.min.js"></script>
 	<link href="js/jquery-ui-1.10.1.custom.css" rel="stylesheet"/>
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jqueryui-editable/css/jqueryui-editable.css" rel="stylesheet"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jqueryui-editable/js/jqueryui-editable.min.js"></script>
-	<script>
+	<scrip nonce="csec380"t>
 	$( document ).ready(function() {
 		$('.fancybox').fancybox();
 		
