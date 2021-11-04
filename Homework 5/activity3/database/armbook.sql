@@ -349,3 +349,4 @@ CREATE TABLE IF NOT EXISTS `csp-reports` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
+INSERT INTO `report` VALUES (1,'{\"csp-report\":{\"document-uri\":\"https://localhost:443/\",\"referrer\":\"\",\"violated-directive\":\"script-src-elem\",\"effective-directive\":\"script-src-elem\",\"original-policy\":\"upgrade-insecure-requests; script-src \'self\';report-uri /report.php\",\"disposition\":\"enforce\",\"blocked-uri\":\"inline\",\"line-number\":7,\"source-file\":\"https://localhost:443/\",\"status-code\":0,\"script-sample\":\"\"}}');
