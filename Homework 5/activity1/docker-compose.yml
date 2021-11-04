@@ -14,5 +14,8 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./web
+    ports:
+      - "443:443"
+    restart: always
 
       
