@@ -343,7 +343,6 @@ INSERT INTO `users` (`user_id`, `email`, `password`, `firstname`, `lastname`, `s
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
-
 CREATE TABLE IF NOT EXISTS `csp-reports` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `datuh` longtext DEFAULT NULL,
