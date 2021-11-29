@@ -2,7 +2,8 @@
 ini_set("request_order", "GPC");
 $email = $_POST['email'];
 $password = $_POST['password'];
-$session = htmlentities($_REQUEST['ARM_SESSION']);
+// This line should be commented out because the information for a session id should not be sent via a post request
+//$session = htmlentities($_REQUEST['ARM_SESSION']);
 include_once("common.php");
 if($stmt = $mysqli->prepare("SELECT password, user_id from users where email=?")){
 	if($stmt->bind_param("s", $email)){
